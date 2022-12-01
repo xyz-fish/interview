@@ -37,3 +37,29 @@ function cuttingRope(n) {
   }
   return ans
 }
+
+// 第一种方法的优化
+function cuttingRope(n) {
+  if (n <= 3) return n - 1
+  const a = n % 3,
+    b = ~~(n / 3)
+  if (a === 0) return Math.pow(3, b)
+  if (a === 1) return Math.pow(3, b - 2) * 4
+  return Math.pow(3, b) * 2
+}
+
+// dp
+
+function cuttingRope(n) {
+  const dp = Array.from({ length: n + 1 }).fill(0)
+
+  for (let i = 2; i <= n; i++) {
+    let curMax = i - 1
+    for (let j = 1; j < i; j++) {
+      curMax = Math.max(curMax, Math.max(j * (i - j)), j * dp[i - j])
+    }
+    dp[i] = curMax
+  }
+
+  return dp[n]
+}
